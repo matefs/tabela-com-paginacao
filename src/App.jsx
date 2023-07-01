@@ -1,178 +1,183 @@
-import React from 'react';
-import { Table, Tag } from 'antd';
-import { MoreOutlined, TagFilled } from '@ant-design/icons';
+// Importando os componentes necessários
+import React, { useState } from "react";
+import { Table, Tag, Button, Input, Select, Typography, Row, Col, InputNumber, Popconfirm} from "antd";
+import { MoreOutlined, TagFilled, PlusOutlined} from "@ant-design/icons";
 
-const data = [
-  {
-    key: '1',
-    name: 'João',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 100,00',
-  },
-  {
-    key: '2',
-    name: 'Maria',
-    userStatus: 'Inativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 50,00',
-  },
-  {
-    key: '3',
-    name: 'Pedro',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 75,00',
-  },
-  {
-    key: '4',
-    name: 'Ana',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 30,00',
-  },
-  {
-    key: '5',
-    name: 'Carlos',
-    userStatus: 'Inativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 90,00',
-  },
-  {
-    key: '6',
-    name: 'Lúcia',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 20,00',
-  },
-  {
-    key: '7',
-    name: 'Fernando',
-    userStatus: 'Inativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 60,00',
-  },
-  {
-    key: '8',
-    name: 'Mariana',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 45,00',
-  },
-  {
-    key: '9',
-    name: 'Gustavo',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 80,00',
-  },
-  {
-    key: '10',
-    name: 'Camila',
-    userStatus: 'Inativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 70,00',
-  },
-  {
-    key: '11',
-    name: 'Rafaela',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 55,00',
-  },
-  {
-    key: '12',
-    name: 'Lucas',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 25,00',
-  },
-  {
-    key: '13',
-    name: 'Fábio',
-    userStatus: 'Inativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 95,00',
-  },
-  {
-    key: '14',
-    name: 'Isabela',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 40,00',
-  },
-  {
-    key: '15',
-    name: 'Paulo',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 85,00',
-  },
-  {
-    key: '16',
-    name: 'Larissa',
-    userStatus: 'Inativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 65,00',
-  },
-  {
-    key: '17',
-    name: 'Ricardo',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pago',
-    value: 'R$ 50,00',
-  },
-  {
-    key: '18',
-    name: 'Sofia',
-    userStatus: 'Ativo',
-    paymentStatus: 'Pendente',
-    value: 'R$ 35,00',
-  },
-];
 
-const columns = [
-  {
-    title: 'Nome',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Status do Usuário',
-    dataIndex: 'userStatus',
-    key: 'userStatus',
-    render: (palavra) => {
-      return palavra == 'Ativo' ? (
-        <Tag color="success" icon={<TagFilled />}>
-          {palavra}
-        </Tag>
-      ) : (
-        <Tag color="error" icon={<TagFilled />}>
-          {palavra}
-        </Tag>
-      );
-    },
-    sorter: (a, b) => a.userStatus.localeCompare(b.userStatus),
-  },
-  {
-    title: 'Status do Pagamento',
-    dataIndex: 'paymentStatus',
-    key: 'paymentStatus',
-  },
-  {
-    title: 'Valor',
-    dataIndex: 'value',
-    key: 'value',
-  },
-  {
-    title: 'Ações',
-    key: 'actions',
-    render: () => <MoreOutlined />,
-  },
-];
+const { Title } = Typography;
 
-const UserPaymentTable = () => {
-  return <Table dataSource={data} columns={columns} />;
+
+
+
+// Criando um componente para representar o formulário de criação de itensDoProjeto
+const CardForm = ({ onCreate }) => {
+  // Definindo os estados para armazenar os valores dos campos
+  const [name, setName] = useState("");
+  const [userStatus, setUserStatus] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(null);
+  const [value, setValue] = useState("");
+  const [showForm, setShowForm] = useState(false);
+
+
+    const handleNewRegistroClick = () => {
+     showForm == false ? setShowForm(true) : setShowForm(false)
+  };
+
+
+  // Definindo uma função para lidar com a submissão do formulário
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Evitando o recarregamento da página
+    onCreate({ name, userStatus, paymentStatus, value }); // Chamando a função passada como prop
+    setName(""); // Limpando os campos
+    setUserStatus(null);
+    setPaymentStatus(null);
+    setValue("");
+    setShowForm(false)
+  };
+
+  return (
+      <>
+ 
+      <Button icon={<PlusOutlined />}
+        onClick={handleNewRegistroClick}
+        style={{ marginLeft: '-79%'}}> 
+        Novo registro
+      </Button>
+
+      {showForm && (
+        <form onSubmit={handleSubmit} style={{ width: '55%', marginTop:'1%' }}>
+          <Input
+            placeholder="Nome do cliente"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            style={{marginBottom:'1%'}}
+          />
+          <Select
+            placeholder="Status do Usuário"
+            value={userStatus}
+            style={{ width: '50%' }}
+            onChange={(value) => setUserStatus(value)}
+            required
+          >
+            <Select.Option value="Ativo">Ativo</Select.Option>
+            <Select.Option value="Inativo">Inativo</Select.Option>
+          </Select>
+
+          <Select
+            placeholder="Status do Pagamento"
+            value={paymentStatus}
+            onChange={(value) => setPaymentStatus(value)}
+            style={{ width: '50%' }}
+            required
+          >
+            <Select.Option value="Pago">Pago</Select.Option>
+            <Select.Option value="Atrasado">Atrasado</Select.Option>
+            <Select.Option value="Pendente">Pendente</Select.Option>
+          </Select>
+
+          <InputNumber
+            placeholder="Valor"
+            value={value}
+            onChange={(numericValue) => setValue(numericValue)}
+            required
+            style={{marginTop:'1%'}}
+          />
+
+          <Row justify="center" style={{ marginTop: '1%' }}>
+            <Col>
+              <Button type="primary" htmlType="submit">
+               Salvar 
+              </Button>
+            </Col>
+          </Row>
+        </form>
+      )}
+    </> 
+    );
 };
 
-export default UserPaymentTable;
+ const Home = () => {
+  const [itensDoProjeto, setItensDoProjeto] = useState([
+    {
+      name: "João",
+      userStatus: "Ativo",
+      paymentStatus: "Pago",
+      value: "1000",
+    },
+    {
+      name: "ZN Logística",
+      userStatus: "Inativo",
+      paymentStatus: "Atrasado",
+      value: "500",
+    },
+  ]);
+
+  const handleDeleteCard = (index) => {
+    setItensDoProjeto(itensDoProjeto.filter((item, i) => i !== index));
+  };
+
+  const columns = [
+    {
+      title: "Nome",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Status do Usuário",
+      dataIndex: "userStatus",
+      key: "userStatus",
+      render: (palavra) => {
+        return palavra === "Ativo" ? (
+          <Tag color="success" icon={<TagFilled />}>
+            {palavra}
+          </Tag>
+        ) : (
+          <Tag color="error" icon={<TagFilled />}>
+            {palavra}
+          </Tag>
+        );
+      },
+      sorter: (a, b) => a.userStatus.localeCompare(b.userStatus),
+    },
+    {
+      title: "Status do Pagamento",
+      dataIndex: "paymentStatus",
+      key: "paymentStatus",
+    },
+    {
+      title: "Valor",
+      dataIndex: "value",
+      key: "value",
+      render: (valor) => `R$ ${valor}`,
+    },
+    {
+      title: "Ações",
+      key: "actions",
+      render: (text, record, index) => (
+        <Popconfirm
+          title="Deseja realmente deletar este item?"
+          onConfirm={() => handleDeleteCard(index)}
+          okText="Sim"
+          cancelText="Não"
+        >
+          <Button icon={<MoreOutlined />} />
+        </Popconfirm>
+      ),
+    },
+  ];
+
+  const handleCreateCard = (item) => {
+    setItensDoProjeto([...itensDoProjeto, item]);
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Title level={2}> Gerenciamento de Projetos Personalizados para Empresas e Clientes </Title>
+      <CardForm onCreate={handleCreateCard} />
+      <Table dataSource={itensDoProjeto} columns={columns} style={{ width:'90%',marginTop: "1%" }} />
+    </div>
+  );
+};
+
+export default Home;
