@@ -53,6 +53,7 @@ const CardForm = ({ onCreate }) => {
             required
             style={{marginBottom:'1%'}}
           />
+          
           <Select
             placeholder="Status do Usuário"
             value={userStatus}
@@ -113,7 +114,7 @@ const CardForm = ({ onCreate }) => {
     },
   ]);
 
-  const handleDeleteCard = (index) => {
+  const handleDeleteItem = (index) => {
     setItensDoProjeto(itensDoProjeto.filter((item, i) => i !== index));
   };
 
@@ -157,7 +158,7 @@ const CardForm = ({ onCreate }) => {
       render: (text, record, index) => (
         <Popconfirm
           title="Deseja realmente deletar este item?"
-          onConfirm={() => handleDeleteCard(index)}
+          onConfirm={() => handleDeleteItem(index)}
           okText="Sim"
           cancelText="Não"
         >
@@ -167,14 +168,14 @@ const CardForm = ({ onCreate }) => {
     },
   ];
 
-  const handleCreateCard = (item) => {
+  const handleCreateItem = (item) => {
     setItensDoProjeto([...itensDoProjeto, item]);
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <Title level={2}> Gerenciamento de Projetos Personalizados para Empresas e Clientes </Title>
-      <CardForm onCreate={handleCreateCard} />
+      <CardForm onCreate={handleCreateItem} />
       <Table dataSource={itensDoProjeto} columns={columns} style={{ width:'90%',marginTop: "1%" }} />
     </div>
   );
