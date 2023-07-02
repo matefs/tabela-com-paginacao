@@ -10,30 +10,24 @@ import {
   Col,
   InputNumber,
   Popconfirm,
+  Form,
 } from "antd";
 import { MoreOutlined, TagFilled, PlusOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
 const NovoRegistroForm = ({ onCreate }) => {
-  const [name, setName] = useState("");
-  const [userStatus, setUserStatus] = useState(null);
-  const [paymentStatus, setPaymentStatus] = useState(null);
-  const [value, setValue] = useState("");
+  const [form] = Form.useForm();
   const [showForm, setShowForm] = useState(false);
 
   const handleNewRegistroClick = () => {
     showForm == false ? setShowForm(true) : setShowForm(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onCreate({ name, userStatus, paymentStatus, value });
-    setName("");
-    setUserStatus(null);
-    setPaymentStatus(null);
-    setValue("");
-    setShowForm(false);
+  const handleSubmit = (values) => {
+    onCreate(values);
+    form.resetFields();
+    setShowForm(false)
   };
 
   return (
@@ -47,54 +41,58 @@ const NovoRegistroForm = ({ onCreate }) => {
       </Button>
 
       {showForm && (
-        <form onSubmit={handleSubmit} style={{ width: "55%", marginTop: "1%" }}>
-          <Input
-            placeholder="Nome do cliente"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            style={{ marginBottom: "1%" }}
-          />
-
-          <Select
-            placeholder="Status do Usuário"
-            value={userStatus}
-            style={{ width: "50%" }}
-            onChange={(value) => setUserStatus(value)}
-            required
+       <Form
+          form={form}
+          onFinish={handleSubmit}
+          style={{ width: '55%'}}
+        >
+          <Form.Item
+            name="name"
+            label="Nome do cliente"
+            rules={[{ required: true, message: 'Por favor, insira o nome do cliente' }]}
           >
-            <Select.Option value="Ativo">Ativo</Select.Option>
-            <Select.Option value="Inativo">Inativo</Select.Option>
-          </Select>
+            <Input />
+          </Form.Item>
 
-          <Select
-            placeholder="Status do Pagamento"
-            value={paymentStatus}
-            onChange={(value) => setPaymentStatus(value)}
-            style={{ width: "50%" }}
-            required
+          <Form.Item
+            name="userStatus"
+            label="Status do Usuário"
+            rules={[{ required: true, message: 'Por favor, selecione o status do usuário' }]}
           >
-            <Select.Option value="Pago">Pago</Select.Option>
-            <Select.Option value="Atrasado">Atrasado</Select.Option>
-            <Select.Option value="Pendente">Pendente</Select.Option>
-          </Select>
+            <Select>
+              <Select.Option value="Ativo">Ativo</Select.Option>
+              <Select.Option value="Inativo">Inativo</Select.Option>
+            </Select>
+          </Form.Item>
 
-          <InputNumber
-            placeholder="Valor"
-            value={value}
-            onChange={(numericValue) => setValue(numericValue)}
-            required
-            style={{ marginTop: "1%" }}
-          />
+          <Form.Item
+            name="paymentStatus"
+            label="Status do Pagamento"
+            rules={[{ required: true, message: 'Por favor, selecione o status do pagamento' }]}
+          >
+            <Select>
+              <Select.Option value="Pago">Pago</Select.Option>
+              <Select.Option value="Atrasado">Atrasado</Select.Option>
+              <Select.Option value="Pendente">Pendente</Select.Option>
+            </Select>
+          </Form.Item>
 
-          <Row justify="center" style={{ marginTop: "1%" }}>
+          <Form.Item
+            name="value"
+            label="Valor"
+            rules={[{ required: true, message: 'Por favor, insira o valor' },{ type: 'number', max: 9999999, message: 'O valor máximo permitido é 9999999' }]}
+          >
+            <InputNumber maxLength={9} style={{ width: '100%' }} />
+          </Form.Item>
+
+          <Row justify="center">
             <Col>
               <Button type="primary" htmlType="submit">
                 Salvar
               </Button>
             </Col>
           </Row>
-        </form>
+        </Form>
       )}
     </>
   );
@@ -103,12 +101,14 @@ const NovoRegistroForm = ({ onCreate }) => {
 const Home = () => {
   const [itensDoProjeto, setItensDoProjeto] = useState([
     {
+      id: 1,
       name: "João",
       userStatus: "Ativo",
       paymentStatus: "Pago",
       value: "1000",
     },
     {
+      id:2,
       name: "ZN Logística",
       userStatus: "Inativo",
       paymentStatus: "Atrasado",
@@ -174,6 +174,18 @@ const Home = () => {
     setItensDoProjeto([...itensDoProjeto, item]);
   };
 
+  const rowSelection = {
+  onChange: (selectedRowKeys, selectedRows) => {
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  },
+  getCheckboxProps: (record) => ({ 
+    disabled: record.userSatatus == 'Inativo', // Column configuration not to be checked
+    name: record.name,
+  }), // TODO: Ajeitar essa validação para não permitir selecionar registros inativos.
+
+};
+
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -184,6 +196,11 @@ const Home = () => {
       </Title>
       <NovoRegistroForm onCreate={handleCreateItem} />
       <Table
+         rowSelection={{
+          type: 'checkbox',
+          ...rowSelection,
+        }}
+        rowKey="id" 
         dataSource={itensDoProjeto}
         columns={columns}
         style={{ width: "90%", marginTop: "1%" }}
