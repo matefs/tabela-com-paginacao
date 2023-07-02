@@ -1,63 +1,65 @@
-// Importando os componentes necessários
 import React, { useState } from "react";
-import { Table, Tag, Button, Input, Select, Typography, Row, Col, InputNumber, Popconfirm} from "antd";
-import { MoreOutlined, TagFilled, PlusOutlined} from "@ant-design/icons";
-
+import {
+  Table,
+  Tag,
+  Button,
+  Input,
+  Select,
+  Typography,
+  Row,
+  Col,
+  InputNumber,
+  Popconfirm,
+} from "antd";
+import { MoreOutlined, TagFilled, PlusOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
-
-
-
-// Criando um componente para representar o formulário de criação de itensDoProjeto
 const NovoRegistroForm = ({ onCreate }) => {
-  // Definindo os estados para armazenar os valores dos campos
   const [name, setName] = useState("");
   const [userStatus, setUserStatus] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [value, setValue] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-
-    const handleNewRegistroClick = () => {
-     showForm == false ? setShowForm(true) : setShowForm(false)
+  const handleNewRegistroClick = () => {
+    showForm == false ? setShowForm(true) : setShowForm(false);
   };
 
-
-  // Definindo uma função para lidar com a submissão do formulário
   const handleSubmit = (e) => {
-    e.preventDefault(); // Evitando o recarregamento da página
-    onCreate({ name, userStatus, paymentStatus, value }); // Chamando a função passada como prop
-    setName(""); // Limpando os campos
+    e.preventDefault();
+    onCreate({ name, userStatus, paymentStatus, value });
+    setName("");
     setUserStatus(null);
     setPaymentStatus(null);
     setValue("");
-    setShowForm(false)
+    setShowForm(false);
   };
 
   return (
-      <>
- 
-      <Button icon={<PlusOutlined />}
+    <>
+      <Button
+        icon={<PlusOutlined />}
         onClick={handleNewRegistroClick}
-        style={{ marginLeft: '-79%'}}> 
+        style={{ marginLeft: "-79%" }}
+      >
         Novo registro
       </Button>
 
       {showForm && (
-        <form onSubmit={handleSubmit} style={{ width: '55%', marginTop:'1%' }}>
+        <form onSubmit={handleSubmit} style={{ width: "55%", marginTop: "1%" }}>
           <Input
             placeholder="Nome do cliente"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            style={{marginBottom:'1%'}}
+            style={{ marginBottom: "1%" }}
           />
-          
+
           <Select
             placeholder="Status do Usuário"
             value={userStatus}
-            style={{ width: '50%' }}
+            style={{ width: "50%" }}
             onChange={(value) => setUserStatus(value)}
             required
           >
@@ -69,7 +71,7 @@ const NovoRegistroForm = ({ onCreate }) => {
             placeholder="Status do Pagamento"
             value={paymentStatus}
             onChange={(value) => setPaymentStatus(value)}
-            style={{ width: '50%' }}
+            style={{ width: "50%" }}
             required
           >
             <Select.Option value="Pago">Pago</Select.Option>
@@ -82,23 +84,23 @@ const NovoRegistroForm = ({ onCreate }) => {
             value={value}
             onChange={(numericValue) => setValue(numericValue)}
             required
-            style={{marginTop:'1%'}}
+            style={{ marginTop: "1%" }}
           />
 
-          <Row justify="center" style={{ marginTop: '1%' }}>
+          <Row justify="center" style={{ marginTop: "1%" }}>
             <Col>
               <Button type="primary" htmlType="submit">
-               Salvar 
+                Salvar
               </Button>
             </Col>
           </Row>
         </form>
       )}
-    </> 
-    );
+    </>
+  );
 };
 
- const Home = () => {
+const Home = () => {
   const [itensDoProjeto, setItensDoProjeto] = useState([
     {
       name: "João",
@@ -173,10 +175,19 @@ const NovoRegistroForm = ({ onCreate }) => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <Title level={2}> Gerenciamento de Projetos Personalizados para Empresas e Clientes </Title>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <Title level={2}>
+        {" "}
+        Gerenciamento de Projetos Personalizados para Empresas e Clientes{" "}
+      </Title>
       <NovoRegistroForm onCreate={handleCreateItem} />
-      <Table dataSource={itensDoProjeto} columns={columns} style={{ width:'90%',marginTop: "1%" }} />
+      <Table
+        dataSource={itensDoProjeto}
+        columns={columns}
+        style={{ width: "90%", marginTop: "1%" }}
+      />
     </div>
   );
 };
