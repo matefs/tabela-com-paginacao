@@ -12,91 +12,12 @@ import {
   Popconfirm,
   Form,
 } from "antd";
-import { MoreOutlined, TagFilled, PlusOutlined } from "@ant-design/icons";
+import { MoreOutlined, TagFilled, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import NovoRegistroForm from "./componentes/NovoRegistroForm";
 
 const { Title } = Typography;
 
-const NovoRegistroForm = ({ onCreate }) => {
-  const [form] = Form.useForm();
-  const [showForm, setShowForm] = useState(false);
 
-  const handleNewRegistroClick = () => {
-    showForm == false ? setShowForm(true) : setShowForm(false);
-  };
-
-  const handleSubmit = (values) => {
-    onCreate(values);
-    form.resetFields();
-    setShowForm(false)
-  };
-
-  return (
-    <>
-      <Button
-        icon={<PlusOutlined />}
-        onClick={handleNewRegistroClick}
-        style={{ marginLeft: "-79%" }}
-      >
-        Novo registro
-      </Button>
-
-      {showForm && (
-       <Form
-          form={form}
-          onFinish={handleSubmit}
-          style={{ width: '55%'}}
-        >
-          <Form.Item
-            name="name"
-            label="Nome do cliente"
-            rules={[{ required: true, message: 'Por favor, insira o nome do cliente' }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="userStatus"
-            label="Status do Usuário"
-            rules={[{ required: true, message: 'Por favor, selecione o status do usuário' }]}
-          >
-            <Select>
-              <Select.Option value="Ativo">Ativo</Select.Option>
-              <Select.Option value="Inativo">Inativo</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="paymentStatus"
-            label="Status do Pagamento"
-            rules={[{ required: true, message: 'Por favor, selecione o status do pagamento' }]}
-          >
-            <Select>
-              <Select.Option value="Pago">Pago</Select.Option>
-              <Select.Option value="Atrasado">Atrasado</Select.Option>
-              <Select.Option value="Pendente">Pendente</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="value"
-            label="Valor"
-            rules={[{ required: true, message: 'Por favor, insira o valor' },{ type: 'number', max: 9999999, message: 'O valor máximo permitido é 9999999' }]}
-          >
-            <InputNumber maxLength={9} style={{ width: '100%' }} />
-          </Form.Item>
-
-          <Row justify="center">
-            <Col>
-              <Button type="primary" htmlType="submit">
-                Salvar
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      )}
-    </>
-  );
-};
 
 const Home = () => {
   const [itensDoProjeto, setItensDoProjeto] = useState([
@@ -186,6 +107,7 @@ const Home = () => {
 };
 
 
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -194,7 +116,16 @@ const Home = () => {
         {" "}
         Gerenciamento de Projetos Personalizados para Empresas e Clientes{" "}
       </Title>
+
+      <div style={{marginLeft:'10%', width: '100%'}}>
       <NovoRegistroForm onCreate={handleCreateItem} />
+
+       <Button style={{ marginLeft: '1%' }} icon={<DeleteOutlined />}> 
+        Apagar todos selecionados
+        </Button>
+
+      </div>
+
       <Table
          rowSelection={{
           type: 'checkbox',
