@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 
 // Criando um componente para representar o formulário de criação de itensDoProjeto
-const CardForm = ({ onCreate }) => {
+const NovoRegistroForm = ({ onCreate }) => {
   // Definindo os estados para armazenar os valores dos campos
   const [name, setName] = useState("");
   const [userStatus, setUserStatus] = useState(null);
@@ -175,7 +175,7 @@ const CardForm = ({ onCreate }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <Title level={2}> Gerenciamento de Projetos Personalizados para Empresas e Clientes </Title>
-      <CardForm onCreate={handleCreateItem} />
+      <NovoRegistroForm onCreate={handleCreateItem} />
       <Table dataSource={itensDoProjeto} columns={columns} style={{ width:'90%',marginTop: "1%" }} />
     </div>
   );
