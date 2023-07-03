@@ -3,23 +3,17 @@ import {
   Table,
   Tag,
   Button,
-  Input,
-  Select,
   Typography,
-  Row,
-  Col,
-  InputNumber,
   Popconfirm,
-  Form,
 } from "antd";
-import { MoreOutlined, TagFilled, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import { MoreOutlined, TagFilled,  DeleteOutlined } from "@ant-design/icons";
 import NovoRegistroForm from "./componentes/NovoRegistroForm";
 
 const { Title } = Typography;
 
 
-
 const Home = () => {
+
   const [itensDoProjeto, setItensDoProjeto] = useState([
     {
       id: 1,
