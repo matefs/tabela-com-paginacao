@@ -29,6 +29,28 @@ const Home = () => {
       paymentStatus: "Atrasado",
       value: "500",
     },
+    {
+      id: 3,
+      name: "Empresa C",
+      userStatus: "Ativo",
+      paymentStatus: "Pendente",
+      value: "7000",
+    },
+    {
+      id: 4,
+      name: "Empresa D",
+      userStatus: "Inativo",
+      paymentStatus: "Pago",
+      value: "2000",
+    },
+    {
+      id: 5,
+      name: "Empresa E",
+      userStatus: "Ativo",
+      paymentStatus: "Atrasado",
+      value: "4000",
+    }
+
   ]);
 
   const handleDeleteItem = (index) => {
