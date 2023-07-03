@@ -13,7 +13,7 @@ const { Title } = Typography;
 
 
 const Home = () => {
-
+  const [listaDeRegistrosASeremExcluidos, setlistaDeRegistrosASeremExcluidos] = useState([]);
   const [itensDoProjeto, setItensDoProjeto] = useState([
     {
       id: 1,
@@ -34,6 +34,13 @@ const Home = () => {
   const handleDeleteItem = (index) => {
     setItensDoProjeto(itensDoProjeto.filter((item, i) => i !== index));
   };
+
+  const handleDeleteRegistrosSelecionados = () => {
+  setItensDoProjeto(itensDoProjeto.filter((item) => {
+    return !listaDeRegistrosASeremExcluidos.some((segundoItem) => segundoItem == item);
+  }))
+  setlistaDeRegistrosASeremExcluidos([])
+ };
 
   const columns = [
     {
@@ -91,7 +98,9 @@ const Home = () => {
 
   const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
+    // todo aq
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    setlistaDeRegistrosASeremExcluidos(selectedRows)
   },
   getCheckboxProps: (record) => ({ 
     disabled: record.userSatatus == 'Inativo', // Column configuration not to be checked
@@ -114,9 +123,15 @@ const Home = () => {
       <div style={{marginLeft:'10%', width: '100%'}}>
       <NovoRegistroForm onCreate={handleCreateItem} />
 
-       <Button style={{ marginLeft: '1%' }} icon={<DeleteOutlined />}> 
+      {listaDeRegistrosASeremExcluidos.length >= 1 ? 
+       <Button
+       style={{ marginLeft: '1%' }}
+       icon={<DeleteOutlined />}
+       onClick={handleDeleteRegistrosSelecionados} 
+       > 
         Apagar todos selecionados
         </Button>
+        : null } 
 
       </div>
 
