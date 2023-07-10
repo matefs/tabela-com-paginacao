@@ -7,7 +7,7 @@ import {
   Popconfirm,
 } from "antd";
 import { MoreOutlined, TagFilled,  DeleteOutlined } from "@ant-design/icons";
-import NovoRegistroForm from "./componentes/NovoRegistroForm";
+import NovoRegistroForm from "./componentes/NovoRegistroFormulario/NovoRegistroForm";
 
 const { Title } = Typography;
 
