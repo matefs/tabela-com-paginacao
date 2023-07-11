@@ -8,12 +8,14 @@ import {
 import {TagFilled,  DeleteOutlined } from "@ant-design/icons";
 import NovoRegistroForm from "./componentes/NovoRegistroFormulario/NovoRegistroForm";
 import BotaoDropDown from './componentes/BotaoDropdown/BotaoDropDown';
+import ModalEditarRegistro from "./componentes/ModalEditarRegistro";
 
 const { Title } = Typography;
 
 
 const Home = () => {
   const [listaDeRegistrosASeremExcluidos, setlistaDeRegistrosASeremExcluidos] = useState([]);
+  const [mostrarModalBooleano, setMostrarModalBooleano ] = useState(false);
   const [itensDoProjeto, setItensDoProjeto] = useState([
     {
       id: 1,
@@ -134,8 +136,13 @@ const Home = () => {
         {" "}
         Gerenciamento de Projetos Personalizados para Empresas e Clientes{" "}
       </Title>
+ 
+      <ModalEditarRegistro 
+      mostrarModalBooleano={mostrarModalBooleano} 
+      setMostrarModalBooleano={setMostrarModalBooleano} /> 
+ 
 
-      <div style={{marginLeft:'10%', width: '100%'}}>
+      <div style={{width: '90%'}}>
       <NovoRegistroForm onCreate={handleCreateItem} />
 
       {listaDeRegistrosASeremExcluidos.length >= 1 ? 
