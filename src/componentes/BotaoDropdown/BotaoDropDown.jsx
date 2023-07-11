@@ -17,10 +17,11 @@ const items = [
 ];
 
 
-export default function BotaoDropdown( { onDropDownButtonClick, record, handleDeleteItem} ) { 
+export default function BotaoDropdown( { onDropDownButtonClick, record, handleDeleteItem, setMostrarModalBooleano} ) { 
   function onDropDownButtonClick (e, record)  {
     let descricaoDaOpcaoClicada = e.domEvent.target.innerText; 
-    descricaoDaOpcaoClicada == 'Deletar registro' ? handleDeleteItem(record.id) : null;
+    descricaoDaOpcaoClicada == 'Deletar registro' ? handleDeleteItem(record.id) : 
+    descricaoDaOpcaoClicada == 'Editar registro' ? setMostrarModalBooleano(true) :  null;
     
     console.log(descricaoDaOpcaoClicada , `Record ${JSON.stringify(record)} `)
   }

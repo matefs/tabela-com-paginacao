@@ -16,7 +16,7 @@ const { Title } = Typography;
 const Home = () => {
   const [listaDeRegistrosASeremExcluidos, setlistaDeRegistrosASeremExcluidos] = useState([]);
   const [mostrarModalBooleano, setMostrarModalBooleano ] = useState(false);
-  const [itensDoProjeto, setItensDoProjeto] = useState([
+  const [listaDeRegistrosTabela, setListaDeRegistrosTabela] = useState([
     {
       id: 1,
       name: "João",
@@ -56,11 +56,11 @@ const Home = () => {
   ]);
 
  const handleDeleteItem = (id) => {
-  setItensDoProjeto(itensDoProjeto.filter((item) => item.id !== id));
+  setListaDeRegistrosTabela(listaDeRegistrosTabela.filter((item) => item.id !== id));
 };
 
   const handleDeleteRegistrosSelecionados = () => {
-  setItensDoProjeto(itensDoProjeto.filter((item) => {
+  setListaDeRegistrosTabela(listaDeRegistrosTabela.filter((item) => {
     return !listaDeRegistrosASeremExcluidos.some((segundoItem) => segundoItem == item);
   }))
   setlistaDeRegistrosASeremExcluidos([])
@@ -104,13 +104,13 @@ const Home = () => {
       title: "Ações",
       key: "actions",
       render: (text, record) => (
-       <BotaoDropDown handleDeleteItem={handleDeleteItem} record={record}></BotaoDropDown>
+       <BotaoDropDown handleDeleteItem={handleDeleteItem} record={record} setMostrarModalBooleano={setMostrarModalBooleano}></BotaoDropDown>
       ),
     },
   ];
 
   const handleCreateItem = (item) => {
-    setItensDoProjeto([...itensDoProjeto, item]);
+    setListaDeRegistrosTabela([...listaDeRegistrosTabela, item]);
   };
 
   const rowSelection = {
@@ -163,7 +163,7 @@ const Home = () => {
           ...rowSelection,
         }}
         rowKey="id" 
-        dataSource={itensDoProjeto}
+        dataSource={listaDeRegistrosTabela}
         columns={columns}
         style={{ width: "90%", marginTop: "1%" }}
       />
