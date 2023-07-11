@@ -4,10 +4,10 @@ import {
   Tag,
   Button,
   Typography,
-  Popconfirm,
 } from "antd";
-import { MoreOutlined, TagFilled,  DeleteOutlined } from "@ant-design/icons";
+import {TagFilled,  DeleteOutlined } from "@ant-design/icons";
 import NovoRegistroForm from "./componentes/NovoRegistroFormulario/NovoRegistroForm";
+import BotaoDropDown from './componentes/BotaoDropdown/BotaoDropDown';
 
 const { Title } = Typography;
 
@@ -53,9 +53,9 @@ const Home = () => {
 
   ]);
 
-  const handleDeleteItem = (index) => {
-    setItensDoProjeto(itensDoProjeto.filter((item, i) => i !== index));
-  };
+ const handleDeleteItem = (id) => {
+  setItensDoProjeto(itensDoProjeto.filter((item) => item.id !== id));
+};
 
   const handleDeleteRegistrosSelecionados = () => {
   setItensDoProjeto(itensDoProjeto.filter((item) => {
@@ -101,15 +101,8 @@ const Home = () => {
     {
       title: "Ações",
       key: "actions",
-      render: (text, record, index) => (
-        <Popconfirm
-          title="Deseja realmente deletar este item?"
-          onConfirm={() => handleDeleteItem(index)}
-          okText="Sim"
-          cancelText="Não"
-        >
-          <Button icon={<MoreOutlined />} />
-        </Popconfirm>
+      render: (text, record) => (
+       <BotaoDropDown handleDeleteItem={handleDeleteItem} record={record}></BotaoDropDown>
       ),
     },
   ];

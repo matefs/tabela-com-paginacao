@@ -5,31 +5,32 @@ const items = [
   {
     key: '1',
     label: (
-        '1st menu item'
+        'Editar registro'
     ),
   },
   {
     key: '2',
     label: (
-        '2nd menu item'
-    ),
-  },
-  {
-    key: '3',
-    label: (
-        '3rd menu item'
+        'Deletar registro'
     ),
   },
 ];
 
 
+export default function BotaoDropdown( { onDropDownButtonClick, record, handleDeleteItem} ) { 
+  function onDropDownButtonClick (e, record)  {
+    let descricaoDaOpcaoClicada = e.domEvent.target.innerText; 
+    descricaoDaOpcaoClicada == 'Deletar registro' ? handleDeleteItem(record.id) : null;
+    
+    console.log(descricaoDaOpcaoClicada , `Record ${JSON.stringify(record)} `)
+  }
 
-export default function BotaoDropdown( { onDropDownButtonClick } ) { return (
-    <Dropdown
+  return (
+  <Dropdown
     trigger={'click'}
     menu={{
         items,
-        onClick: onDropDownButtonClick,
+        onClick: (e) => onDropDownButtonClick(e, record),
     }}
     >
       <a onClick={(e) => e.preventDefault()} style={{cursor:'pointer', padding: '10px'}}>
